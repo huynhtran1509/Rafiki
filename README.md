@@ -3,8 +3,8 @@ AndroidObservables
 
 One of the major annoyances when writing an android library is that, at times, a library needs to know when certain lifecycle events occur. In the past there have been two approaches. 
 
-1) Force the user to extend your activity or fragment
-2) Force the user to make lifecycle callbacks at the appropriate times
+1. Force the user to extend your activity or fragment
+2. Force the user to make lifecycle callbacks at the appropriate times
 
 Option 1 is a non-starter because once one library forced you to extend the activity or fragment then all other libraries became pointless.
 
