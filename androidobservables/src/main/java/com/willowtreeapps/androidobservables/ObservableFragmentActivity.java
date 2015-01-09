@@ -28,12 +28,12 @@ import android.view.View;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by charlie on 12/3/14.
  */
-public abstract class ObservableFragmentActivity extends FragmentActivity {
+public abstract class ObservableFragmentActivity extends FragmentActivity implements CustomNonConfigurationHolder {
 
     private ArrayList<ActivityObserver> mObservers = new ArrayList<ActivityObserver>();
     private boolean mIsPaused = true;
@@ -352,22 +352,30 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
     }
 
     @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        Object result = super.onRetainCustomNonConfigurationInstance();
-
+    final public Object onRetainCustomNonConfigurationInstance() {
+        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
         Object temp;
         for (ActivityObserver observer : mObservers) {
             temp = observer.onRetainCustomNonConfigurationInstance(this);
-            if(temp != null) {
-                if (result == null) {
-                    result = temp;
-                } else {
-                    throw new IllegalStateException("Multiple custom configuration instances cannot be saved");
+            if (temp != null) {
+                String id = observer.getStaticID();
+                if (id == null) {
+                    throw new IllegalStateException("Static ID cannot be null when saving a configuration instance");
                 }
+                map.put(observer.getStaticID(), temp);
             }
         }
 
-        return result;
+        return map;
+    }
+
+    public Object getLastCustomNonConfigurationInstance(String id) {
+        Object object = getLastCustomNonConfigurationInstance();
+        if (object != null) {
+            ConcurrentHashMap<String, Object> map = (ConcurrentHashMap<String, Object>) object;
+            return map.get(id);
+        }
+        return null;
     }
 
     @Override
@@ -483,7 +491,7 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
         CharSequence temp;
         for (ActivityObserver observer : mObservers) {
             temp = observer.onCreateDescription(this);
-            if(temp != null) {
+            if (temp != null) {
                 if (result == null) {
                     result = temp;
                 } else {
@@ -512,7 +520,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onTrimMemory(this, level);
-        };
+        }
+        ;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -522,7 +531,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onAttachFragment(this, fragment);
-        };
+        }
+        ;
     }
 
     @Override
@@ -673,7 +683,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onUserInteraction(this);
-        };
+        }
+        ;
     }
 
     @Override
@@ -682,7 +693,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onWindowAttributesChanged(this, params);
-        };
+        }
+        ;
     }
 
     @Override
@@ -691,7 +703,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onContentChanged(this);
-        };
+        }
+        ;
     }
 
     @Override
@@ -700,7 +713,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onWindowFocusChanged(this, hasFocus);
-        };
+        }
+        ;
     }
 
     @Override
@@ -709,7 +723,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onAttachedToWindow(this);
-        };
+        }
+        ;
     }
 
     @Override
@@ -718,7 +733,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onDetachedFromWindow(this);
-        };
+        }
+        ;
     }
 
     @Nullable
@@ -729,7 +745,7 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
         View temp;
         for (ActivityObserver observer : mObservers) {
             temp = observer.onCreatePanelView(this, featureId);
-            if(temp != null) {
+            if (temp != null) {
                 if (result == null) {
                     result = temp;
                 } else {
@@ -830,7 +846,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onCreateNavigateUpTaskStack(this, builder);
-        };
+        }
+        ;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -840,7 +857,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onPrepareNavigateUpTaskStack(this, builder);
-        };
+        }
+        ;
     }
 
     @Override
@@ -849,7 +867,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onOptionsMenuClosed(this, menu);
-        };
+        }
+        ;
     }
 
     @Override
@@ -858,7 +877,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onCreateContextMenu(this, menu, v, menuInfo);
-        };
+        }
+        ;
     }
 
     @Override
@@ -887,7 +907,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onContextMenuClosed(this, menu);
-        };
+        }
+        ;
     }
 
     @Override
@@ -897,7 +918,7 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
         Dialog temp;
         for (ActivityObserver observer : mObservers) {
             temp = observer.onCreateDialog(this, id);
-            if(temp != null) {
+            if (temp != null) {
                 if (result == null) {
                     result = temp;
                 } else {
@@ -917,7 +938,7 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
         Dialog temp;
         for (ActivityObserver observer : mObservers) {
             temp = observer.onCreateDialog(this, id, args);
-            if(temp != null) {
+            if (temp != null) {
                 if (result == null) {
                     result = temp;
                 } else {
@@ -935,7 +956,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onPrepareDialog(this, id, dialog);
-        };
+        }
+        ;
     }
 
     @Override
@@ -944,7 +966,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onPrepareDialog(this, id, dialog, args);
-        };
+        }
+        ;
     }
 
     @Override
@@ -973,7 +996,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onApplyThemeResource(this, theme, resid, first);
-        };
+        }
+        ;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -983,7 +1007,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onActivityReenter(this, resultCode, data);
-        };
+        }
+        ;
     }
 
     @Override
@@ -992,7 +1017,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onTitleChanged(this, title, color);
-        };
+        }
+        ;
     }
 
     @Override
@@ -1001,7 +1027,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onChildTitleChanged(this, childActivity, title);
-        };
+        }
+        ;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -1012,7 +1039,7 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
         View temp;
         for (ActivityObserver observer : mObservers) {
             temp = observer.onCreateView(this, parent, name, context, attrs);
-            if(temp != null) {
+            if (temp != null) {
                 if (result == null) {
                     result = temp;
                 } else {
@@ -1031,7 +1058,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onVisibleBehindCanceled(this);
-        };
+        }
+        ;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -1041,7 +1069,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onEnterAnimationComplete(this);
-        };
+        }
+        ;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -1053,7 +1082,7 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
         ActionMode temp;
         for (ActivityObserver observer : mObservers) {
             temp = observer.onWindowStartingActionMode(this, callback);
-            if(temp != null) {
+            if (temp != null) {
                 if (result == null) {
                     result = temp;
                 } else {
@@ -1072,7 +1101,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onActionModeStarted(this, mode);
-        };
+        }
+        ;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -1082,7 +1112,8 @@ public abstract class ObservableFragmentActivity extends FragmentActivity {
 
         for (ActivityObserver observer : mObservers) {
             observer.onActionModeFinished(this, mode);
-        };
+        }
+        ;
     }
 
 }

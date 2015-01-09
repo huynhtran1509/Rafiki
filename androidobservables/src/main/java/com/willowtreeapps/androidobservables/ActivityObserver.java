@@ -27,11 +27,13 @@ import android.view.WindowManager;
  */
 public interface ActivityObserver {
     public void onCreate(Activity Activity, Bundle savedInstanceState);
+
     public void onActivityResult(Activity fragmentActivity, int requestCode, int resultCode, Intent data);
 
     /**
      * This method differs slightly from the normal Activity. If you return false from this activity
-     *  then the calling activity will not call super.onBackPress()
+     * then the calling activity will not call super.onBackPress()
+     *
      * @param Activity
      * @return true if you want to block the call to super.onBackPress(), false otherwise
      */
@@ -41,7 +43,8 @@ public interface ActivityObserver {
 
     /**
      * This method is similar to the normal activity. Return true if you want to panel to be shown.
-     *  Returning false is not guarunteed to hide the panel however because another observer may have returned true
+     * Returning false is not guarunteed to hide the panel however because another observer may have returned true
+     *
      * @param Activity
      * @param featureId
      * @param menu
@@ -51,7 +54,8 @@ public interface ActivityObserver {
 
     /**
      * Return a view if you want to react to this onCreateView. HOWEVER, if you return a view you have to be the first observable to do so
-     *  Otherwise the result is ignored
+     * Otherwise the result is ignored
+     *
      * @param Activity
      * @param name
      * @param context
@@ -62,6 +66,7 @@ public interface ActivityObserver {
 
     /**
      * The onDestroy event from an activity. After this call this observable will no longer receive events from the activity
+     *
      * @param Activity
      */
     public void onDestroy(Activity Activity);
@@ -99,8 +104,9 @@ public interface ActivityObserver {
     public void onStop(Activity Activity);
 
     /**
-     * A method to save a custom object. Note that since only one object can be saved, only one object per activity should
-     *  handle this callback with a non-null value. If multiple observers return an object an IllegalStateException will be thrown
+     * A method to save a custom object. If you implement this method you most also implement getStaticID.
+     * @see com.willowtreeapps.androidobservables.ActivityObserver#getStaticID
+     *
      * @return An object for the activity to hold onto
      */
     public Object onRetainCustomNonConfigurationInstance(Activity Activity);
@@ -127,7 +133,8 @@ public interface ActivityObserver {
 
     /**
      * A method to set the activities description. Note that since only one description can be saved, only one description per activity should
-     *  handle this callback with a non-null value. If multiple observers return an object an IllegalStateException will be thrown
+     * handle this callback with a non-null value. If multiple observers return an object an IllegalStateException will be thrown
+     *
      * @return A description for the activity or null. Default null
      */
     public CharSequence onCreateDescription(Activity Activity);
@@ -231,4 +238,11 @@ public interface ActivityObserver {
     public boolean onSupportNavigateUp(ObservableActionBarActivity observableActionBarActivity);
 
     public void onSupportContentChanged(ObservableActionBarActivity observableActionBarActivity);
+
+    /**
+     * Override this to provide a static ID so that onRetainCustomNonConfigurationInstance can map your object back to you
+     *
+     * @return A unique unchanging ID for this observable. A fully qualified class name is recommended
+     */
+    public String getStaticID();
 }

@@ -1,7 +1,6 @@
 package com.willowtreeapps.androidobservables;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.Dialog;
 import android.app.TaskStackBuilder;
 import android.content.Context;
@@ -28,17 +27,18 @@ import java.lang.ref.WeakReference;
 /**
  * Created by charlie on 12/3/14.
  */
-public class ActivityObserverImpl implements ActivityObserver{
+public class ActivityObserverImpl implements ActivityObserver {
 
     WeakReference<Activity> mActivity = null;
 
     /**
      * A method to get the activity we're monitoring. This activity will be stored after onCreate
-     *  however this method can return null if the activity is destroyed
+     * however this method can return null if the activity is destroyed
+     *
      * @return The observing activity or null if it has been destroyed
      */
     public Activity getActivity() {
-        if(mActivity == null) return null;
+        if (mActivity == null) return null;
 
         return mActivity.get();
     }
@@ -161,6 +161,21 @@ public class ActivityObserverImpl implements ActivityObserver{
     @Override
     public Object onRetainCustomNonConfigurationInstance(Activity activity) {
         return null;
+    }
+
+    /**
+     * A helper method to get a custom configuration object.
+     * @see com.willowtreeapps.androidobservables.ActivityObserver#onRetainCustomNonConfigurationInstance(android.app.Activity)
+     * @see com.willowtreeapps.androidobservables.ActivityObserver#getStaticID()
+     *
+     * @return The custom non configuration object for this observer
+     */
+    public Object getLastCustomNonConfigurationInstance(Activity activity) {
+        if (activity instanceof CustomNonConfigurationHolder) {
+            CustomNonConfigurationHolder holder = (CustomNonConfigurationHolder) activity;
+            return holder.getLastCustomNonConfigurationInstance(getStaticID());
+        }
+        throw new IllegalStateException("Cannot get a custom nonconfiguration object from an object that does not implement CustomNonConfigurationHolder");
     }
 
     @Override
@@ -456,5 +471,10 @@ public class ActivityObserverImpl implements ActivityObserver{
     @Override
     public void onSupportContentChanged(ObservableActionBarActivity observableActionBarActivity) {
 
+    }
+
+    @Override
+    public String getStaticID() {
+        return null;
     }
 }

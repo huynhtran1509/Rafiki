@@ -2,6 +2,7 @@ package com.willowtreeapps.androidobserver.observersample.activity;
 
 import com.willowtreeapps.androidobservables.ObservableActionBarActivity;
 import com.willowtreeapps.androidobservables.ObservableFragmentActivity;
+import com.willowtreeapps.androidobserver.observersample.activitymodules.SampleLoaderLikeNetworkModule;
 import com.willowtreeapps.androidobserver.observersample.activitymodules.SampleUiModule;
 import com.willowtreeapps.androidobserver.observersample.activitymodules.SettingsMenuModule;
 
@@ -12,7 +13,9 @@ public class SampleActivity extends ObservableFragmentActivity {
 
     public SampleActivity() {
         super();
-        addObserver(new SampleUiModule());
+        SampleLoaderLikeNetworkModule loaderModule = new SampleLoaderLikeNetworkModule();
+        addObserver(loaderModule);
+        addObserver(new SampleUiModule(loaderModule));
         addObserver(new SettingsMenuModule());
     }
 }
