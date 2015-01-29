@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AndroidObservableSample</string>
-    <string name="title_activity_sample">Sample Activity</string>
+    <string name="app_name">RafikiSample</string>
+    <string name="title_activity_sample">Rafiki Sample</string>
     <string name="hello_world">Hello world!</string>
     <string name="login_text">Login</string>
     <string name="menu_settings">Settings</string>

@@ -1,4 +1,4 @@
-AndroidObservables
+Rafiki
 ==================
 
 One of the major annoyances when writing an android library is that, at times, a library needs to know when certain lifecycle events occur. In the past there have been two approaches. 
@@ -12,7 +12,7 @@ Option 2 is not the best because it involves manual work and if your library is 
 
 Therefore I came up with the concept of Android Observables. Basically by extending the Activity or Fragments that I provided you can provide hooks that other libraries can tie into. Below is an example of an ActivityModule that simply adds a menu to all activities you add it to:
 ```java
-public class SettingsMenuModule extends ActivityObserverImpl {
+public class SettingsMenuModule extends AbstractActivityListener {
 
     @Override
     public boolean onCreateOptionsMenu(Activity activity, Menu menu) {
@@ -34,4 +34,4 @@ public class SettingsMenuModule extends ActivityObserverImpl {
 You'll note that the syntax almost looks like you're extending the activity yourself. It's really that simple of a concept and I hope that it will add to complex/flexible libraries that are trivial to implement in your own app.
 
 As a side benefit, since you're no longer extending an Activity or Fragment your code is already inherently more unit testable. Included in the samples you can see plain old unit tests that test an activity module without any form of android emulation. Granted that tests here will be limited in their current form, but hopefully some combination of this and robolectric can provide a format in which it will be trivial to write more complicated unit tests. Once we gauge the interest here we'll work to investigating this further. See the below class for a quick example:
-https://github.com/willowtreeapps/AndroidObservables/blob/master/sample/src/test/java/com/willowtreeapps/androidobserver/observersample/activitymodules/SettingsMenuModuleTest.java
+https://github.com/willowtreeapps/AndroidObservables/blob/master/sample/src/test/java/com/willowtreeapps/rafiki/observersample/activitymodules/SettingsMenuModuleTest.java
