@@ -35,3 +35,8 @@ You'll note that the syntax almost looks like you're extending the activity your
 
 As a side benefit, since you're no longer extending an Activity or Fragment your code is already inherently more unit testable. Included in the samples you can see plain old unit tests that test an activity module without any form of android emulation. Granted that tests here will be limited in their current form, but hopefully some combination of this and robolectric can provide a format in which it will be trivial to write more complicated unit tests. Once we gauge the interest here we'll work to investigating this further. See the below class for a quick example:
 https://github.com/willowtreeapps/Rafiki/blob/master/sample/src/test/java/com/willowtreeapps/rafiki/observersample/activitymodules/SettingsMenuModuleTest.java
+
+##Including Rafiki in your project
+```gradle
+    compile 'com.willowtreeapps:Rafiki:1.0.0-SNAPSHOT'
+```
