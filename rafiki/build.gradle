@@ -1,4 +1,15 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+version = "1.0.0-SNAPSHOT"
+group = "com.willowtreeapps"
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
 
 android {
     compileSdkVersion 21
@@ -24,4 +35,50 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.0'
+}
+
+signing {
+    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: sonatypeSnapshotRepo) {
+            authentication(userName: ossrhUsername,
+                    password: ossrhPassword)
+        }
+
+        pom.project {
+            name 'Rafiki'
+            packaging 'aar'
+            description 'An Android framework for observing the android lifecycle events'
+            url 'https://github.com/willowtreeapps/Rafiki'
+
+            scm {
+                url 'scm:git@github.com:willowtreeapps/Rafiki.git'
+                connection 'scm:git@github.com:willowtreeapps/Rafiki.git'
+                developerConnection 'scm:git@github.com:willowtreeapps/Rafiki.git'
+            }
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'imbeyondboredom'
+                    name 'Charlie Fairchild'
+                    email developerEmail
+                }
+            }
+        }
+    }
 }
