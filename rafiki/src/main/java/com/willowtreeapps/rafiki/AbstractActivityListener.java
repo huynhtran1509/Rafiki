@@ -444,32 +444,32 @@ public class AbstractActivityListener implements ActivityListener {
     }
 
     @Override
-    public void onSupportActionModeStarted(DispatchActionBarActivity observableActionBarActivity, android.support.v7.view.ActionMode mode) {
+    public void onSupportActionModeStarted(Activity observableActionBarActivity, android.support.v7.view.ActionMode mode) {
 
     }
 
     @Override
-    public void onSupportActionModeFinished(DispatchActionBarActivity observableActionBarActivity, android.support.v7.view.ActionMode mode) {
+    public void onSupportActionModeFinished(Activity observableActionBarActivity, android.support.v7.view.ActionMode mode) {
 
     }
 
     @Override
-    public void onCreateSupportNavigateUpTaskStack(DispatchActionBarActivity observableActionBarActivity, android.support.v4.app.TaskStackBuilder builder) {
+    public void onCreateSupportNavigateUpTaskStack(Activity observableActionBarActivity, android.support.v4.app.TaskStackBuilder builder) {
 
     }
 
     @Override
-    public void onPrepareSupportNavigateUpTaskStack(DispatchActionBarActivity observableActionBarActivity, android.support.v4.app.TaskStackBuilder builder) {
+    public void onPrepareSupportNavigateUpTaskStack(Activity observableActionBarActivity, android.support.v4.app.TaskStackBuilder builder) {
 
     }
 
     @Override
-    public boolean onSupportNavigateUp(DispatchActionBarActivity observableActionBarActivity) {
+    public boolean onSupportNavigateUp(Activity observableActionBarActivity) {
         return false;
     }
 
     @Override
-    public void onSupportContentChanged(DispatchActionBarActivity observableActionBarActivity) {
+    public void onSupportContentChanged(Activity observableActionBarActivity) {
 
     }
 

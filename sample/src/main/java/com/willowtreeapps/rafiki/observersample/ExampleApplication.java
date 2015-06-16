@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.willowtreeapps.rafiki.observersample.dagger.ApplicationComponent;
 import com.willowtreeapps.rafiki.observersample.dagger.ApplicationComponentReturner;
-import com.willowtreeapps.rafiki.observersample.dagger.Dagger_ApplicationComponent;
+import com.willowtreeapps.rafiki.observersample.dagger.DaggerApplicationComponent;
 import com.willowtreeapps.rafiki.observersample.dagger.SampleApplicationModule;
 
 /**
@@ -17,7 +17,7 @@ public class ExampleApplication extends Application implements ApplicationCompon
     @Override
     public void onCreate() {
         super.onCreate();
-        mComponent = Dagger_ApplicationComponent.builder()
+        mComponent = DaggerApplicationComponent.builder()
                 .sampleApplicationModule(new SampleApplicationModule(this))
                 .build();
     }

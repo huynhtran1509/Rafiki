@@ -239,6 +239,8 @@ public interface ActivityListener {
 
     public void onSupportContentChanged(Activity observableActionBarActivity);
 
+
+
     /**
      * Override this to provide a static ID so that onRetainCustomNonConfigurationInstance can map your object back to you
      *
