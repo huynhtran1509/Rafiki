@@ -1,7 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.willowtreeapps.androidobservables">
+    package="com.willowtreeapps.androidobservables" >
 
     <application>
+        <activity
+            android:name="com.willowtreeapps.rafiki.DispatchAppCompatActivity"
+            android:label="@string/title_activity_app_compat_activitiy" >
+        </activity>
     </application>
 
 </manifest>

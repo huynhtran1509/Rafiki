@@ -227,17 +227,17 @@ public interface ActivityListener {
 
     public void onActionModeFinished(Activity observableActionBarActivity, ActionMode mode);
 
-    public void onSupportActionModeStarted(DispatchActionBarActivity observableActionBarActivity, android.support.v7.view.ActionMode mode);
+    public void onSupportActionModeStarted(Activity observableActionBarActivity, android.support.v7.view.ActionMode mode);
 
-    public void onSupportActionModeFinished(DispatchActionBarActivity observableActionBarActivity, android.support.v7.view.ActionMode mode);
+    public void onSupportActionModeFinished(Activity observableActionBarActivity, android.support.v7.view.ActionMode mode);
 
-    public void onCreateSupportNavigateUpTaskStack(DispatchActionBarActivity observableActionBarActivity, android.support.v4.app.TaskStackBuilder builder);
+    public void onCreateSupportNavigateUpTaskStack(Activity observableActionBarActivity, android.support.v4.app.TaskStackBuilder builder);
 
-    public void onPrepareSupportNavigateUpTaskStack(DispatchActionBarActivity observableActionBarActivity, android.support.v4.app.TaskStackBuilder builder);
+    public void onPrepareSupportNavigateUpTaskStack(Activity observableActionBarActivity, android.support.v4.app.TaskStackBuilder builder);
 
-    public boolean onSupportNavigateUp(DispatchActionBarActivity observableActionBarActivity);
+    public boolean onSupportNavigateUp(Activity observableActionBarActivity);
 
-    public void onSupportContentChanged(DispatchActionBarActivity observableActionBarActivity);
+    public void onSupportContentChanged(Activity observableActionBarActivity);
 
     /**
      * Override this to provide a static ID so that onRetainCustomNonConfigurationInstance can map your object back to you
