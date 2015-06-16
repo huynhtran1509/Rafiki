@@ -1148,4 +1148,15 @@ public class DispatchAppCompatActivity extends AppCompatActivity implements Cust
             observer.onSupportContentChanged(this);
         }
     }
+
+    @Override
+    public void onContentChanged() {
+        super.onContentChanged();
+
+        for (ActivityListener observer : mObservers) {
+            observer.onSupportContentChanged(this);
+        }
+    }
+
+
 }
